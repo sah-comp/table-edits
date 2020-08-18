@@ -1,5 +1,5 @@
-
-;(function ($, window, document, undefined) {
+;
+(function($, window, document, undefined) {
     var pluginName = "editable",
         defaults = {
             keyboard: true,
@@ -15,7 +15,7 @@
 
     function editable(element, options) {
         this.element = element;
-        this.options = $.extend({}, defaults, options) ;
+        this.options = $.extend({}, defaults, options);
 
         this._defaults = defaults;
         this._name = pluginName;
@@ -57,6 +57,8 @@
 
             $('td[data-field]', this.element).each(function() {
                 var input,
+                    opt,
+                    cval,
                     field = $(this).data('field'),
                     value = $(this).text(),
                     width = $(this).width();
@@ -71,16 +73,19 @@
 
                 if (field in instance.options.dropdowns) {
                     input = $('<select></select>');
-
-                    for (var i = 0; i < instance.options.dropdowns[field].length; i++) {
-                        $('<option></option>')
-                             .text(instance.options.dropdowns[field][i])
-                             .appendTo(input);
-                    };
-
+                    input.attr('id', 'foxy-' + field);
+                    input.attr('name', field);
+                    $(instance.options.dropdowns[field]).each(function() {
+                        opt = $("<option></option>");
+                        opt.attr('value', this.val).text(this.text);
+                        if (value == this.text) {
+                            cval = this.val;//memorize the current value
+                        }
+                        opt.appendTo(input);
+                    });
                     input.val(value)
-                         .data('old-value', value)
-                         .dblclick(instance._captureEvent);
+                        .data('old-value', value)
+                        .dblclick(instance._captureEvent);
                 } else {
                     input = $('<input type="text" />')
                         .val(value)
@@ -89,6 +94,8 @@
                 }
 
                 input.appendTo(this);
+                //marked the option with the current value as selected
+                $('#foxy-' + field + ' option[value="' + cval + '"]').attr("selected", "selected");
 
                 if (instance.options.keyboard) {
                     input.keydown(instance._captureKey.bind(instance));
@@ -104,11 +111,21 @@
 
             $('td[data-field]', this.element).each(function() {
                 var value = $(':input', this).val();
+                var seltext = '';
+                var field = $(this).data('field');
 
-                values[$(this).data('field')] = value;
+                values[field] = value;
 
-                $(this).empty()
-                       .text(value);
+                if (field in instance.options.dropdowns) {
+                    $(instance.options.dropdowns[field]).each(function() {
+                        if ((this).val == value) {
+                            seltext = (this).text;
+                        }
+                    })
+                    $(this).empty().text(seltext);
+                } else {
+                    $(this).empty().text(value);
+                }
             });
 
             this.options.save.bind(this.element)(values);
@@ -124,7 +141,7 @@
                 values[$(this).data('field')] = value;
 
                 $(this).empty()
-                       .text(value);
+                    .text(value);
             });
 
             this.options.cancel.bind(this.element)(values);
@@ -146,10 +163,10 @@
     };
 
     $.fn[pluginName] = function(options) {
-        return this.each(function () {
+        return this.each(function() {
             if (!$.data(this, "plugin_" + pluginName)) {
                 $.data(this, "plugin_" + pluginName,
-                new editable(this, options));
+                    new editable(this, options));
             }
         });
     };
