@@ -1,4 +1,3 @@
-
 describe('Table-Edits', function() {
     beforeEach(function() {
         this.table = document.createElement('table');
@@ -96,9 +95,14 @@ describe('Table-Edits', function() {
     it('supports dropdowns', function() {
         $('table tr').editable({
             dropdowns: {
-                message: [
-                    'Hello World',
-                    'Hi there!'
+                message: [{
+                        val: 1,
+                        text: 'Hello World'
+                    },
+                    {
+                        val: 2,
+                        text: 'Hi there!'
+                    }
                 ]
             }
         });
@@ -162,7 +166,7 @@ describe('Table-Edits', function() {
 
     it('calls the edit callback on edit', function() {
         var spy = {
-            callback: function (values) {}
+            callback: function(values) {}
         }
 
         spyOn(spy, 'callback');
@@ -173,12 +177,14 @@ describe('Table-Edits', function() {
 
         this.edit.click();
 
-        expect(spy.callback).toHaveBeenCalledWith({'message': 'Hello World'});
+        expect(spy.callback).toHaveBeenCalledWith({
+            'message': 'Hello World'
+        });
     });
 
     it('calls the save callback on save', function() {
         var spy = {
-            callback: function (values) {}
+            callback: function(values) {}
         }
 
         spyOn(spy, 'callback');
@@ -191,12 +197,14 @@ describe('Table-Edits', function() {
         this.cell.firstChild.value = 'Hi there!';
         this.edit.click();
 
-        expect(spy.callback).toHaveBeenCalledWith({'message': 'Hi there!'});
+        expect(spy.callback).toHaveBeenCalledWith({
+            'message': 'Hi there!'
+        });
     });
 
     it('calls the cancel callback on cancel', function() {
         var spy = {
-            callback: function (values) {}
+            callback: function(values) {}
         }
 
         spyOn(spy, 'callback');
@@ -213,6 +221,8 @@ describe('Table-Edits', function() {
 
         $(this.cell.firstChild).trigger(e);
 
-        expect(spy.callback).toHaveBeenCalledWith({'message': 'Hello World'});
+        expect(spy.callback).toHaveBeenCalledWith({
+            'message': 'Hello World'
+        });
     });
 });

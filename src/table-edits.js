@@ -59,6 +59,7 @@
                 var input,
                     opt,
                     cval,
+                    id = $(this).parent('tr').data('id'),
                     field = $(this).data('field'),
                     value = $(this).text(),
                     width = $(this).width();
@@ -73,7 +74,7 @@
 
                 if (field in instance.options.dropdowns) {
                     input = $('<select></select>');
-                    input.attr('id', 'foxy-' + field);
+                    input.attr('id', 'foxy-' + id + '-' + field);
                     input.attr('name', field);
                     $(instance.options.dropdowns[field]).each(function() {
                         opt = $("<option></option>");
@@ -95,7 +96,7 @@
 
                 input.appendTo(this);
                 //marked the option with the current value as selected
-                $('#foxy-' + field + ' option[value="' + cval + '"]').attr("selected", "selected");
+                $('#foxy-' + id + '-' + field + ' option[value="' + cval + '"]').attr("selected", "selected");
 
                 if (instance.options.keyboard) {
                     input.keydown(instance._captureKey.bind(instance));
