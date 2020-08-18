@@ -58,7 +58,7 @@
             $('td[data-field]', this.element).each(function() {
                 var input,
                     opt,
-                    cval,
+                    cval = 0,
                     id = $(this).parent('tr').data('id'),
                     field = $(this).data('field'),
                     value = $(this).text(),
@@ -76,17 +76,20 @@
                     input = $('<select></select>');
                     input.attr('id', 'foxy-' + id + '-' + field);
                     input.attr('name', field);
+                    input.attr('autocomplete', 'off');
                     $(instance.options.dropdowns[field]).each(function() {
                         opt = $("<option></option>");
                         opt.attr('value', this.val).text(this.text);
                         if (value == this.text) {
-                            cval = this.val;//memorize the current value
+                            cval = this.val; //memorize the current value
+                            console.log('The value of ' + field + '#' + id + ' equals ' + cval);
                         }
                         opt.appendTo(input);
                     });
                     input.val(value)
                         .data('old-value', value)
                         .dblclick(instance._captureEvent);
+
                 } else {
                     input = $('<input type="text" />')
                         .val(value)
@@ -96,7 +99,8 @@
 
                 input.appendTo(this);
                 //marked the option with the current value as selected
-                $('#foxy-' + id + '-' + field + ' option[value="' + cval + '"]').attr("selected", "selected");
+                console.log('Value is ' + cval);
+                $('#foxy-' + id + '-' + field + ' > option[value="' + cval + '"]').attr("selected", "selected");
 
                 if (instance.options.keyboard) {
                     input.keydown(instance._captureKey.bind(instance));

@@ -108,7 +108,7 @@
                             <td data-field="name">Dwayne Johnson</td>
                             <td data-field="birthday">May 19, 2015</td>
                             <td data-field="age">42</td>
-                            <td data-field="sex">Male</td>
+                            <td data-field="sex">Female</td>
                             <td data-field="hair">Blonde</td>
                             <td>
                                 <a class="button button-small edit" title="Edit">
@@ -192,22 +192,26 @@
 
             $('table tr').editable({
                 dropdowns: {
-                    sex: [{
-                            val: 0,
+                    'sex': [{
+                            val: '0',
                             text: 'Male'
                         },
                         {
-                            val: 1,
+                            val: '1',
                             text: 'Female'
                         }
                     ],
-                    hair: [{
-                            val: 0,
+                    'hair': [{
+                            val: '0',
                             text: 'Brown'
                         },
                         {
-                            val: 1,
+                            val: '1',
                             text: 'Blonde'
+                        },
+                        {
+                            val: '2',
+                            text: 'Red'
                         }
                     ]
                 },
