@@ -53,6 +53,22 @@ The only additional markup __Table Edits__ requires is a `data-field` attribute 
 
 The last cell will not become editable because it does not have the `data-field` attribute.
 
+#### Dropdowns
+
+Instead of the original __Table Edits__ this forks dropdowns have to be defined like this:
+
+```
+dropdowns: {
+    sex: [
+        {val: 'f', text: 'female'},
+        {val: 'm', text: 'male'}
+    ]
+}
+```
+I found this useful to handle database backed information better. E.g. if you want to
+manage relations.
+
+
 #### Saving Table Data
 
 Table Edits makes it easy to save edits. Callbacks are passed a `values` object with column names and values of the edited row.
