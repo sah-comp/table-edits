@@ -76,13 +76,12 @@
                     input = $('<select></select>');
                     input.attr('id', 'foxy-' + id + '-' + field);
                     input.attr('name', field);
-                    input.attr('autocomplete', 'off');
+                    //input.attr('autocomplete', 'off');
                     $(instance.options.dropdowns[field]).each(function() {
                         opt = $("<option></option>");
                         opt.attr('value', this.val).text(this.text);
                         if (value == this.text) {
                             cval = this.val; //memorize the current value
-                            console.log('The value of ' + field + '#' + id + ' equals ' + cval);
                         }
                         opt.appendTo(input);
                     });
@@ -99,8 +98,7 @@
 
                 input.appendTo(this);
                 //marked the option with the current value as selected
-                console.log('Value is ' + cval);
-                $('#foxy-' + id + '-' + field + ' > option[value="' + cval + '"]').attr("selected", "selected");
+                $('#foxy-' + id + '-' + field + ' > option[value="' + cval + '"]').prop("selected", "selected");
 
                 if (instance.options.keyboard) {
                     input.keydown(instance._captureKey.bind(instance));
